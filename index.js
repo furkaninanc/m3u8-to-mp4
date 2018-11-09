@@ -54,6 +54,7 @@ class m3u8ToMp4Converter {
         })
         .outputOptions("-c copy")
         .outputOptions("-bsf:a aac_adtstoasc")
+        .outputOptions("-nostdin")
         .output(this.OUTPUT_FILE)
         .run();
     });
