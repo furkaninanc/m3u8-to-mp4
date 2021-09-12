@@ -7,15 +7,15 @@
 let ffmpeg = require("fluent-ffmpeg");
 
 /**
-* A class to convert M3U8 to MP4
-* @class
-*/
+ * A class to convert M3U8 to MP4
+ * @class
+ */
 class m3u8ToMp4Converter {
   /**
-  * Sets the input file
-  * @param {String} filename M3U8 file path. You can use remote URL
-  * @returns {Function}
-  */
+   * Sets the input file
+   * @param {String} filename M3U8 file path. You can use remote URL
+   * @returns {Function}
+   */
   setInputFile(filename) {
     if (!filename) throw new Error("You must specify the M3U8 file address");
     this.M3U8_FILE = filename;
@@ -24,10 +24,10 @@ class m3u8ToMp4Converter {
   }
 
   /**
-  * Sets the output file
-  * @param {String} filename Output file path. Has to be local :)
-  * @returns {Function}
-  */
+   * Sets the output file
+   * @param {String} filename Output file path. Has to be local :)
+   * @returns {Function}
+   */
   setOutputFile(filename) {
     if (!filename) throw new Error("You must specify the file path and name");
     this.OUTPUT_FILE = filename;
@@ -36,8 +36,8 @@ class m3u8ToMp4Converter {
   }
 
   /**
-  * Starts the process
-  */
+   * Starts the process
+   */
   start(options = {}) {
     // https://github.com/fluent-ffmpeg/node-fluent-ffmpeg#setting-event-handlers
     options = Object.assign({
