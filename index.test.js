@@ -5,14 +5,21 @@ var converter = new m3u8ToMp4();
 
 var demoUrl = "https://content.jwplatform.com/manifests/yp34SRmf.m3u8";
 
-(async function() {
+(async function () {
   try {
     console.log("Starting test...");
 
     await converter
       .setInputFile(demoUrl)
       .setOutputFile("dummy.mp4")
-      .start();
+      .start({
+        onStart: () => console.log('on start'),
+        onEnd: () => console.log('on end'),
+        onError: error => console.error(`on error: ${error.message}`),
+        onProgress: () => console.log('on progress'),
+        onStderr: (stderrLine) => console.log(`on stderr: ${stderrLine}`),
+        onCodecData: () => console.log('on codecdata'),
+      });
 
     fs.unlinkSync("dummy.mp4");
 
