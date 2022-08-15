@@ -38,7 +38,19 @@ class m3u8ToMp4Converter {
   /**
    * Starts the process
    */
-  start() {
+  start(options = {}) {
+    // https://github.com/fluent-ffmpeg/node-fluent-ffmpeg#setting-event-handlers
+    options = Object.assign({
+      onStart: () => { },
+      onEnd: () => { },
+      onError: error => {
+        reject(new Error(error));
+      },
+      onProgress: () => { },
+      onStderr: () => { },
+      onCodecData: () => { },
+    }, options);
+    
     return new Promise((resolve, reject) => {
       if (!this.M3U8_FILE || !this.OUTPUT_FILE) {
         reject(new Error("You must specify the input and the output files"));
@@ -46,11 +58,14 @@ class m3u8ToMp4Converter {
       }
 
       ffmpeg(this.M3U8_FILE)
-        .on("error", error => {
-          reject(new Error(error));
-        })
-        .on("end", () => {
+        .on('start', options.onStart)
+        .on('codecData', options.onCodecData)
+        .on('progress', options.onProgress)
+        .on("error", options.onError)
+        .on('stderr', options.onStderr)
+        .on("end", (...args) => {
           resolve();
+          options.onEnd(...args);
         })
         .outputOptions("-c copy")
         .outputOptions("-bsf:a aac_adtstoasc")
