@@ -44,13 +44,13 @@ class m3u8ToMp4Converter {
       onStart: () => { },
       onEnd: () => { },
       onError: error => {
-        reject(new Error(error));
+        throw new Error(error);
       },
       onProgress: () => { },
       onStderr: () => { },
       onCodecData: () => { },
     }, options);
-    
+
     return new Promise((resolve, reject) => {
       if (!this.M3U8_FILE || !this.OUTPUT_FILE) {
         reject(new Error("You must specify the input and the output files"));
